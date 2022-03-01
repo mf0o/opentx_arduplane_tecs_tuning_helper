@@ -3,22 +3,11 @@ en,tecs1,continue in Fly by Wire and fly level at desired cruise speed
 en,tecs2,now accelerate to your desired maximum cruise speed
 en,tecs3,keep the throttle at 
 en,tecs3.1,and start climbing until your airspeed reaches 
-en,tecs4,slow down. and start turning at full bank angle, until plane gets unstable
+en,tecs4,slow down to the minimum safe speed without stalling
 en,tecs5,gain some altitude. then cut throttle and pitch down gently until airspeed reaches
 en,tecs6,cut throttle and pitch down to a desired sink rate without exceeding
 en,tecs7,fly as fast as possible while maintaining constant altitude
 en,tecsf,done. read the tex from your display
-
-
-
-
-
-
-
-
-
-
-
 
 
 

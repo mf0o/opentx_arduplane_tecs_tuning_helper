@@ -42,7 +42,7 @@ The process can not be paused or aborted but repeated as many times as wished.
 	* ![](_img/telemetry_screen_empty.png)
 * launch your plane and ascend to a comfortable altitude, then switch to FBWA
 * engage your switch
-	* 	follow the instructions and get _and_ hold the plane in the requested attitude and/or speed
+	* 	follow the instructions and get _and_ hold the plane in the requested attitude and/or speed [give the telemetry here a second to update]
 	*  engage the switch again
 	*  repeat
 *  Once done your TECS screen should be filled with numbers

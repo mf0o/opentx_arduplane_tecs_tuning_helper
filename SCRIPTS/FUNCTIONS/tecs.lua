@@ -2,6 +2,8 @@
 -- v0.0.6     26.01.2022	workflow seems to be working, no telemetry support yet
 -- v0.0.7     28.02.2022	adding global variable telemetry, making TECS globally available for tecstm.lua
 -- v0.0.8	  01.03.2022	correcting TECS_PITCH_MAX
+-- v0.0.9	  01.03.2022	added 4 deg margin to TECS_PITCH_MIN and TECS_PITCH_MAX
+-- v0.1.0	  01.03.2022	changed procedure for ARSPD_FBW_MIN from circle to straight without a security margin
 
 
 -- todo:
@@ -53,17 +55,17 @@ TECS = {
     THR_MAX         = { value = 0,  exporter = function(v) return(v) end },                -- %
 	ARSPD_FBW_MAX   = { value = 0,  exporter = function(v) return( KPH_to_Ms(v * 0.95 ) ) end },   -- kph -> m/s * 0.95
 --3
-    TECS_PITCH_MAX  = { value = 0,  exporter = function(v) return(v) end },    -- deg
+    TECS_PITCH_MAX  = { value = 0,  exporter = function(v) return(v + 4) end },    -- deg
 	TECS_CLMB_MAX   = { value = 0,  exporter = function(v) return(v) end },    -- m/s
     FBWB_CLIMB_RATE = { value = 0,  exporter = function(v) return(v) end },    -- m/s
 --4
-    ARSPD_FBW_MIN   = { value = 0,  exporter = function(v) return( KPH_to_Ms(v * 1.05 ) ) end },   -- kph -> m/s * 1.05
+    ARSPD_FBW_MIN   = { value = 0,  exporter = function(v) return( KPH_to_Ms(v ) ) end },   -- kph -> m/s
     _STALL_THR      = { value = 0,  exporter = function(v) return(v) end },	   -- %	
 --5
     STAB_PITCH_DOWN = { value = 0,  exporter = function(v) return(v) end },    -- deg
     TECS_SINK_MIN   = { value = 0,  exporter = function(v) return(v) end },    -- m/s
 --6
-    TECS_PITCH_MIN  = { value = 0,  exporter = function(v) return(v) end },    -- deg
+    TECS_PITCH_MIN  = { value = 0,  exporter = function(v) return(v - 4) end },    -- deg
     TECS_SINK_MAX   = { value = 0,  exporter = function(v) return(v) end },    -- m/s
 --7
     KFF_THR2PTCH    = { value = 0,  exporter = function(v) return(v) end },    -- deg
@@ -102,15 +104,15 @@ local stepDef = {
         fn   = function(arg)
             TECS['TECS_PITCH_MAX'].value 	= telemetry.pitch 		-- "27"
             TECS['TECS_CLMB_MAX'].value 	= telemetry.vSpeed 		-- "7.0"
-            TECS['FBWB_CLIMB_RATE'].value 	= telemetry.vSpeed 	-- "7.0"
+            TECS['FBWB_CLIMB_RATE'].value 	= telemetry.vSpeed 		-- "7.0"
             return
         end,
     },    
     step4 = {
         audio = function() 		playFile("tecs4.wav") end,
-        text  = function(arg)   return "slow down and start turning at full bank angle until plane gets unstable and start stalling "    end,    
+        text  = function(arg)   return "slow down to the minimum safe speed without stalling" end,
         fn    = function(arg)
-            TECS['ARSPD_FBW_MIN'].value = telemetry.hSpeed 		-- "46" -- kph to m/s "13"  -- +15%
+            TECS['ARSPD_FBW_MIN'].value = telemetry.hSpeed 		-- "46" -- kph to m/s "13" 
             TECS['_STALL_THR'].value = getThrottlePct()
             return
         end,

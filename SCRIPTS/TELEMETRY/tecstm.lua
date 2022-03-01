@@ -1,5 +1,8 @@
 -- tecs tuning advisor, telemetry gateway
 -- v0.0.7     28.02.2022      
+-- v0.0.8     01.03.2022
+-- v0.0.9     01.03.2022
+-- v0.1.0     01.03.2022
 
 -- todo:
 -- read yaapu config?
