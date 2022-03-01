@@ -47,3 +47,9 @@ The process can not be paused or aborted but repeated as many times as wished.
 
 ### Process
 ![](img/tecs_tuning_v007.png)
+
+
+###### ... with many thanks to:
+* [https://github.com/yaapu](https://github.com/yaapu)
+* [https://github.com/shellixyz](https://github.com/yaapu)
+* [https://github.com/skorokithakis](https://github.com/yaapu)
