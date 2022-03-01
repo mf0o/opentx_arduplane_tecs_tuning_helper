@@ -33,6 +33,11 @@ The process can not be paused or aborted but repeated as many times as wished.
 	* ![](img/special_functions.png)
 
 ### Operation
+
+**! You are 100% of the time in control and responsible for your plane !**
+
+*There is no need to do any risky manouvers, you can abort at any time and re-gain altitude etc. or cycle through the menu and start over again*
+
 * open the telemetry screen on your remote, it will have 0s in all parameters
 	* ![](img/telemetry_screen_empty.png)
 * launch your plane and ascend to a comfortable altitude, then switch to FBWA
@@ -46,10 +51,17 @@ The process can not be paused or aborted but repeated as many times as wished.
 
 
 ### Process
-![](img/tecs_tuning_v007.png)
+![](img/tecs_tuning_v008.png)
 
 
 ###### ... with many thanks to:
 * [https://github.com/yaapu](https://github.com/yaapu)
 * [https://github.com/shellixyz](https://github.com/yaapu)
 * [https://github.com/skorokithakis](https://github.com/yaapu)
+
+
+
+> Disclaimer:
+> 
+> Use on own risk without any warranty!
+

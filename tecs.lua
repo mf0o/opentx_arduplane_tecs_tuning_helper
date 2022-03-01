@@ -1,6 +1,7 @@
 -- tecs tuning advisor 
--- v0.0.6     26.01.2022      workflow seems to be working, no telemetry support yet
--- v0.0.7     28.02.2022      adding global variable telemetry, making TECS globally available for tecstm.lua
+-- v0.0.6     26.01.2022	workflow seems to be working, no telemetry support yet
+-- v0.0.7     28.02.2022	adding global variable telemetry, making TECS globally available for tecstm.lua
+-- v0.0.8	  01.03.2022	correcting TECS_PITCH_MAX
 
 
 -- todo:
@@ -43,20 +44,21 @@ local getThrottlePct = function()	return math.floor((getValue("thr")+1024)/ 20.4
 
 -- these are the global TECS parameters
 -- each defined as a function to export the raw value into a different unit + security margins
+
 TECS = {
 --1
     TRIM_THROTTLE   = { value = 0,  exporter = function(v) return(v) end },                -- %
     TRIM_ARSPD_CM   = { value = 0,  exporter = function(v) return( KPH_to_CMs(v) ) end },  -- kph -> cm/s
 --2
-    ARSPD_FBW_MAX   = { value = 0,  exporter = function(v) return( KPH_to_Ms(v * 0.95 ) ) end },   -- kph -> m/s * 0.95
     THR_MAX         = { value = 0,  exporter = function(v) return(v) end },                -- %
+	ARSPD_FBW_MAX   = { value = 0,  exporter = function(v) return( KPH_to_Ms(v * 0.95 ) ) end },   -- kph -> m/s * 0.95
 --3
-    TECS_CLMB_MAX   = { value = 0,  exporter = function(v) return(v) end },    -- m/s
+    TECS_PITCH_MAX  = { value = 0,  exporter = function(v) return(v) end },    -- deg
+	TECS_CLMB_MAX   = { value = 0,  exporter = function(v) return(v) end },    -- m/s
     FBWB_CLIMB_RATE = { value = 0,  exporter = function(v) return(v) end },    -- m/s
 --4
     ARSPD_FBW_MIN   = { value = 0,  exporter = function(v) return( KPH_to_Ms(v * 1.05 ) ) end },   -- kph -> m/s * 1.05
-    _STALL_THR      = { value = 0,  exporter = function(v) return(v) end },                -- %
-    TECS_PITCH_MAX  = { value = 0,  exporter = function(v) return(v) end },    -- deg
+    _STALL_THR      = { value = 0,  exporter = function(v) return(v) end },	   -- %	
 --5
     STAB_PITCH_DOWN = { value = 0,  exporter = function(v) return(v) end },    -- deg
     TECS_SINK_MIN   = { value = 0,  exporter = function(v) return(v) end },    -- m/s
@@ -65,7 +67,6 @@ TECS = {
     TECS_SINK_MAX   = { value = 0,  exporter = function(v) return(v) end },    -- m/s
 --7
     KFF_THR2PTCH    = { value = 0,  exporter = function(v) return(v) end },    -- deg
-
 }
 
 
@@ -99,9 +100,9 @@ local stepDef = {
         end,
         text = function(arg)    return string.format("keep the throttle at %s and start climbing until your airspeed reaches %s kph.", TECS['THR_MAX'].value, TECS['TRIM_ARSPD_CM'].value)    end,    
         fn   = function(arg)
-            TECS['TECS_PITCH_MAX'].value = telemetry.pitch 		-- "27"
-            TECS['TECS_CLMB_MAX'].value = telemetry.vSpeed 		-- "7.0"
-            TECS['FBWB_CLIMB_RATE'].value = telemetry.vSpeed 	-- "7.0"
+            TECS['TECS_PITCH_MAX'].value 	= telemetry.pitch 		-- "27"
+            TECS['TECS_CLMB_MAX'].value 	= telemetry.vSpeed 		-- "7.0"
+            TECS['FBWB_CLIMB_RATE'].value 	= telemetry.vSpeed 	-- "7.0"
             return
         end,
     },    
