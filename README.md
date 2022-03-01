@@ -25,12 +25,12 @@ The process can not be paused or aborted but repeated as many times as wished.
 ### Installation
 * Copy tecs.lua to your SD-card /SCRIPTS/FUNCTIONS
 * Copy tecstm.lua to your SD-card /SCRIPTS/TELEMETRY
+* Choose your prefered voice and copy the custom sounds from sounds/<voice-of-your-choice>.zip to your SD-card /SOUNDS/en/
 * replace your yaapu*.lua from the models telemetry screen with "tecstm" 
 	* ![](img/telemetry_screen_tecstm.png)
 	* (Although the script is based on Yaapu FrSky Telemetry Script 1.9.5, it cant be used simulatenously)
 * set up a switch in SPECIAL FUNCTION to trigger the script (momentary switch recommended)
 	* ![](img/special_functions.png)
-* copy the custom sounds from sounds/<voice-of-your-choice>/ to SD-card /SOUNDS/en/
 
 ### Operation
 * open the telemetry screen on your remote, it will have 0s in all parameters
