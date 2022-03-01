@@ -8,6 +8,9 @@ Finally the TECS will be displayed on the screen and saved to a logfile.
 This is based on Yaapu's [FrSky Telemetry Script](https://github.com/yaapu/FrskyTelemetryScript/). 
 Before you continue, make sure you have everything set up on Arduplane and your RC Link to have this working.
 
+It requires some custom sounds but still uses the built-in numbers and units on callouts.
+Complete soundpacks (including the TECS sounds) can be found here: [OpenTX_soundpacks](https://github.com/mf0o/OpenTX_soundpacks)
+A description of filenames and text are located in assets/custom_sounds.csv
 
 The script is running in a loop of:
 
@@ -27,6 +30,7 @@ The process can not be paused or aborted but repeated as many times as wished.
 	* (Although the script is based on Yaapu FrSky Telemetry Script 1.9.5, it cant be used simulatenously)
 * set up a switch in SPECIAL FUNCTION to trigger the script (momentary switch recommended)
 	* ![](img/special_functions.png)
+* copy the custom sounds from sounds/<voice-of-your-choice>/ to SD-card /SOUNDS/en/
 
 ### Operation
 * open the telemetry screen on your remote, it will have 0s in all parameters
