@@ -51,7 +51,7 @@ The process can not be paused or aborted but repeated as many times as wished.
 
 
 ### Process
-![](_img/tecs_tuning_v008.png)
+![](_img/tecs_tuning_process.png)
 
 
 ###### ... with many thanks to:
