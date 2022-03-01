@@ -27,10 +27,10 @@ The process can not be paused or aborted but repeated as many times as wished.
 * Copy tecstm.lua to your SD-card /SCRIPTS/TELEMETRY
 * Choose your prefered voice and copy the custom sounds from sounds/\<voice-of-your-choice\>.zip to your SD-card /SOUNDS/en/
 * replace your yaapu*.lua from the models telemetry screen with "tecstm" 
-	* ![](img/telemetry_screen_tecstm.png)
+	* ![](_img/telemetry_screen_tecstm.png)
 	* (Although the script is based on Yaapu FrSky Telemetry Script 1.9.5, it cant be used simulatenously)
 * set up a switch in SPECIAL FUNCTION to trigger the script (momentary switch recommended)
-	* ![](img/special_functions.png)
+	* ![](_img/special_functions.png)
 
 ### Operation
 
@@ -39,7 +39,7 @@ The process can not be paused or aborted but repeated as many times as wished.
 *There is no need to do any risky manouvers, you can abort at any time and re-gain altitude etc. or cycle through the menu and start over again*
 
 * open the telemetry screen on your remote, it will have 0s in all parameters
-	* ![](img/telemetry_screen_empty.png)
+	* ![](_img/telemetry_screen_empty.png)
 * launch your plane and ascend to a comfortable altitude, then switch to FBWA
 * engage your switch
 	* 	follow the instructions and get _and_ hold the plane in the requested attitude and/or speed
@@ -51,13 +51,13 @@ The process can not be paused or aborted but repeated as many times as wished.
 
 
 ### Process
-![](img/tecs_tuning_v008.png)
+![](_img/tecs_tuning_v008.png)
 
 
 ###### ... with many thanks to:
+* [https://github.com/shellixyz](https://github.com/shellixyz)
 * [https://github.com/yaapu](https://github.com/yaapu)
-* [https://github.com/shellixyz](https://github.com/yaapu)
-* [https://github.com/skorokithakis](https://github.com/yaapu)
+* [https://github.com/skorokithakis](https://github.com/skorokithakis)
 
 
 
