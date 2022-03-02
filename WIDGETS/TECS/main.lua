@@ -1,6 +1,6 @@
 -- tecs tuning advisor 
 -- v0.1.1	  02.03.2022	logfiles will be written with timestamp
-
+-- v0.1.2	  02.03.2022	setting default to 0 for TECS_PITCH_MAX&TECS_PITCH_MIN
 
 -- todo:
 -- airspeedsensor
@@ -369,7 +369,7 @@ TECS = {
     THR_MAX         = { value = 0,  exporter = function(v) return(v) end },                -- %
 	ARSPD_FBW_MAX   = { value = 0,  exporter = function(v) return( KPH_to_Ms(v * 0.95 ) ) end },   -- kph -> m/s * 0.95
 --3
-    TECS_PITCH_MAX  = { value = 0,  exporter = function(v) return(v + 4) end },    -- deg
+    TECS_PITCH_MAX  = { value = -4,  exporter = function(v) return(v + 4) end },    -- deg
 	TECS_CLMB_MAX   = { value = 0,  exporter = function(v) return(v) end },    -- m/s
     FBWB_CLIMB_RATE = { value = 0,  exporter = function(v) return(v) end },    -- m/s
 --4
@@ -378,7 +378,7 @@ TECS = {
     STAB_PITCH_DOWN = { value = 0,  exporter = function(v) return(v) end },    -- deg
     TECS_SINK_MIN   = { value = 0,  exporter = function(v) return(v) end },    -- m/s
 --6
-    TECS_PITCH_MIN  = { value = 0,  exporter = function(v) return(v - 4) end },    -- deg
+    TECS_PITCH_MIN  = { value = 4,  exporter = function(v) return(v - 4) end },    -- deg
     TECS_SINK_MAX   = { value = 0,  exporter = function(v) return(v) end },    -- m/s
 --7
     KFF_THR2PTCH    = { value = 0,  exporter = function(v) return(v) end },    -- deg
