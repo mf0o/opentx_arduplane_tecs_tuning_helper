@@ -22,11 +22,22 @@ Each step is triggered by the configured switch and will update the TECS which a
 
 The process can not be paused or aborted but repeated as many times as wished.
 
-### Installation
+
+### Installation Horus
+* copy WIDGETS/TECS/main.lua to your SD card
+* Choose your prefered voice and copy the custom sounds from sounds/\<voice-of-your-choice\>.zip to your SD-card /SOUNDS/en/
+* unload/remove yaapu Telemetry Script temporarily from the active Widgets List
+* load the TECS widget
+	* ![](_img/horus_setup.png)
+* [optionally] select "setup widget" and choose your switch to initiate the next step. Default is SH
+* reboot your radio
+* your should see those red numbers changing when moving your aircraft
+
+### Installation x9D /Q7 etc.
 * Copy tecs.lua to your SD-card /SCRIPTS/FUNCTIONS
 * Copy tecstm.lua to your SD-card /SCRIPTS/TELEMETRY
 * Choose your prefered voice and copy the custom sounds from sounds/\<voice-of-your-choice\>.zip to your SD-card /SOUNDS/en/
-* replace your yaapu*.lua from the models telemetry screen with "tecstm" 
+* replace your yaapu* from the models telemetry screen with "tecstm" 
 	* ![](_img/telemetry_screen_tecstm.png)
 	* (Although the script is based on Yaapu FrSky Telemetry Script 1.9.5, it cant be used simulatenously)
 * set up a switch in SPECIAL FUNCTION to trigger the script (momentary switch recommended)
@@ -39,6 +50,7 @@ The process can not be paused or aborted but repeated as many times as wished.
 *There is no need to do any risky manouvers, you can abort at any time and re-gain altitude etc. or cycle through the menu and start over again*
 
 * open the telemetry screen on your remote, it will have 0s in all parameters
+	* ![](_img/horus_example.png)
 	* ![](_img/telemetry_screen_empty.png)
 * launch your plane and ascend to a comfortable altitude, then switch to FBWA
 * engage your switch

@@ -4,6 +4,7 @@
 -- v0.0.8	  01.03.2022	correcting TECS_PITCH_MAX
 -- v0.0.9	  01.03.2022	added 4 deg margin to TECS_PITCH_MIN and TECS_PITCH_MAX
 -- v0.1.0	  01.03.2022	changed procedure for ARSPD_FBW_MIN from circle to straight without a security margin
+-- v0.1.1	  02.03.2022	logfiles will be written with timestamp
 
 
 -- todo:
@@ -27,7 +28,7 @@
 local step=1            -- init
 local stepCount = 7     -- step/loop count
 local f                 -- logfile handle
-local exdelay = 50      -- this limits opentx to fire the script too often
+local exdelay = 250     -- this limits opentx to fire the script too often
 
 telemetry = {}			-- shared from SCRIPTS/TELEMETRY/tecstm.lua
 telemetry.pitch = 0		-- [-90 +90]
@@ -60,7 +61,6 @@ TECS = {
     FBWB_CLIMB_RATE = { value = 0,  exporter = function(v) return(v) end },    -- m/s
 --4
     ARSPD_FBW_MIN   = { value = 0,  exporter = function(v) return( KPH_to_Ms(v ) ) end },   -- kph -> m/s
-    _STALL_THR      = { value = 0,  exporter = function(v) return(v) end },	   -- %	
 --5
     STAB_PITCH_DOWN = { value = 0,  exporter = function(v) return(v) end },    -- deg
     TECS_SINK_MIN   = { value = 0,  exporter = function(v) return(v) end },    -- m/s
@@ -113,7 +113,6 @@ local stepDef = {
         text  = function(arg)   return "slow down to the minimum safe speed without stalling" end,
         fn    = function(arg)
             TECS['ARSPD_FBW_MIN'].value = telemetry.hSpeed 		-- "46" -- kph to m/s "13" 
-            TECS['_STALL_THR'].value = getThrottlePct()
             return
         end,
     },
@@ -151,6 +150,24 @@ local stepDef = {
     }
 }
 
+local function logTECS(TECS)
+	local datenow = getDateTime()
+	local timestamp = datenow.year..""..datenow.mon..""..datenow.day..'_'..datenow.hour..""..datenow.min
+	local f = io.open("/LOGS/tecs_"..timestamp..".txt", "a")
+	
+	for param in next,TECS,nil do 
+		local exportValue = nil
+		while not exportValue do
+			exportValue = TECS[param].exporter(TECS[param].value)
+			if type(exportValue) == "lightfunction" then        -- https://github.com/opentx/opentx/issues/6201
+				exportValue = nil
+			end
+		end
+		io.write(f, string.format("%s=%s\r\n", param, exportValue ))
+	 end
+	io.close(f)
+end
+
 
 -- this gets executed each time the switch is been triggered
 -- runs each function, text or audio to the related step
@@ -158,11 +175,7 @@ local stepDef = {
 local function runTTA()
     if extime+exdelay < getTime() then
 
-        local f = io.open("tecs.txt", "a")
-
          if step == 1 then
-			 io.write(f, "MODEL: ",model.getInfo().name,"\r\n")
-             io.write(f, "DO: ", stepDef["step"..step]["text"]() , "\r\n")       -- write text instructions
              stepDef["step"..step]["audio"]()                                    -- play audio
              step=step+1
          else
@@ -171,32 +184,14 @@ local function runTTA()
  
              if step > stepCount then                                            -- reset and print summary
                  step = 1
- 
-                 -- finish up
-                 for param in next,TECS,nil do 
-                     if TECS[param].value ~=  0 then
-                         
-                         local exportValue = nil
-                         while not exportValue do
-                             exportValue = TECS[param].exporter(TECS[param].value)
-                             if type(exportValue) == "lightfunction" then        -- https://github.com/opentx/opentx/issues/6201
-                                 exportValue = nil
-                             end
-                         end
-                         io.write(f, string.format("%s=%s\r\n", param, exportValue ))
-                     end
-                 end
+				 logTECS(TECS)
                  playFile("tecsf.wav") 
  
              else
-                 io.write(f, "DO-NEXT: ", stepDef["step"..step]["text"]() , "\r\n")  -- print next instructions
                  stepDef["step"..step]["audio"]()                                    -- play audio instructions
- 
                  step=step+1
              end
          end
-        
-        io.close(f)
         extime=getTime()
     end
     return 1
