@@ -607,17 +607,26 @@ local function refresh(wgt)
 	lcd.clear(CUSTOM_COLOR)
 	lcd.setColor (CUSTOM_COLOR,  wgt.options.ForeColor)
 
-	lcd.drawText(1,	0,"= TECS TUNING =",CUSTOM_COLOR)
-	lcd.drawText(1	,20	,"Pitch:",CUSTOM_COLOR)
-	lcd.drawText(100	,20	, telemetry.pitch ,CUSTOM_COLOR)
-	lcd.drawText(1	,40	,"Roll:", CUSTOM_COLOR)
-	lcd.drawText(100	,40	, telemetry.roll ,CUSTOM_COLOR)
-	lcd.drawText(1	,60	,"Thr:", CUSTOM_COLOR)
-	lcd.drawText(100	,60	, math.floor((getValue("thr")+1024)/ 20.48)  ,CUSTOM_COLOR)
-	lcd.drawText(1	,100	,"telemetry:", CUSTOM_COLOR)
-	lcd.drawText(100	,100	,noTelemetryData, CUSTOM_COLOR)
-	lcd.drawText(1	,80	,"state:", CUSTOM_COLOR)
-	lcd.drawText(100	,80	,manual_trigger(wgt), CUSTOM_COLOR)
+	lcd.drawText(1		,0	,"= TECS TUNING =",CUSTOM_COLOR)
+	
+	lcd.drawText(1		,20	,"telemetry:",CUSTOM_COLOR)
+	
+	lcd.drawText(1		,40	,"Pitch:",CUSTOM_COLOR)
+	lcd.drawText(100	,40	, telemetry.pitch ,CUSTOM_COLOR)
+	lcd.drawText(1		,60	,"Roll:", CUSTOM_COLOR)
+	lcd.drawText(100	,60	, telemetry.roll ,CUSTOM_COLOR)
+
+	lcd.drawText(1		,80	,"airspeed:", CUSTOM_COLOR)
+	lcd.drawText(100	,80	, telemetry.airspeed ,CUSTOM_COLOR)
+	lcd.drawText(1		,100	,"climb rate:", CUSTOM_COLOR)
+	lcd.drawText(100	,100	, telemetry.vSpeed ,CUSTOM_COLOR)
+	
+	lcd.drawText(1		,120	,"info:",CUSTOM_COLOR)
+	
+	lcd.drawText(1		,140,"telemetry:", CUSTOM_COLOR)
+	lcd.drawText(100	,140,noTelemetryData, CUSTOM_COLOR)
+	lcd.drawText(1		,160,"state:", CUSTOM_COLOR)
+	lcd.drawText(100	,160,manual_trigger(wgt), CUSTOM_COLOR)
 
 	
 --1

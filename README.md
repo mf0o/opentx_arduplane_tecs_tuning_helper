@@ -86,6 +86,12 @@ The process can not be paused or aborted but repeated as many times as needed.
 * v0.1.3	  03.03.2022	adding post-step-status sounds
 * v0.1.4	  03.03.2022	correcting hSpeed to airspeed as telemetry source
 
+
+##### additional Resources
+[https://ardupilot.org/plane/docs/tecs-total-energy-control-system-for-speed-height-tuning-guide.html
+](https://ardupilot.org/plane/docs/tecs-total-energy-control-system-for-speed-height-tuning-guide.html)[https://notes.stavros.io/ardupilot/tuning-the-tecs/](https://notes.stavros.io/ardupilot/tuning-the-tecs/)
+[https://notes.stavros.io/ardupilot/tecs-tuning-calculator/](https://notes.stavros.io/ardupilot/tecs-tuning-calculator/)
+
 ###### ... with many thanks to:
 * [https://github.com/shellixyz](https://github.com/shellixyz)
 * [https://github.com/yaapu](https://github.com/yaapu)

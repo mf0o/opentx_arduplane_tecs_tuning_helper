@@ -1,13 +1,4 @@
--- tecs tuning advisor, telemetry gateway
--- v0.0.7     28.02.2022      
--- v0.0.8     01.03.2022
--- v0.0.9     01.03.2022
--- v0.1.0     01.03.2022
-
--- todo:
--- read yaapu config?
--- support f.port & s.port telemetry
-
+-- tecs tuning advisor, telemetry gateway,  v0.1.5
 
 -- This program is free software; you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -21,7 +12,6 @@
 --
 -- You should have received a copy of the GNU General Public License
 -- along with this program; if not, see <http://www.gnu.org/licenses>.
-
 
 
 local unitScale = getGeneralSettings().imperial == 0 and 1 or 3.28084
@@ -396,11 +386,17 @@ end
 local function run(e)
   lcd.clear()
   lcd.drawText(1,0,"= TECS TUNING =",0)
-  lcd.drawText(105,0,"Pitch:",0)
-  lcd.drawText(lcd.getLastPos()+2,0, telemetry.pitch ,0)
-  lcd.drawText(lcd.getLastPos()+10,0,"Roll:", 0)
-  lcd.drawText(lcd.getLastPos()+1,0, telemetry.roll ,0)
 	
+  lcd.drawText(88,0,"Pt:",0)
+  lcd.drawText(lcd.getLastPos()+2,0, telemetry.pitch ,0)
+	
+  lcd.drawText(lcd.getLastPos()+10,0,"Rl:", 0)
+  lcd.drawText(lcd.getLastPos()+2,0, telemetry.roll ,0)
+  lcd.drawText(lcd.getLastPos()+10,0,"Sp:", 0)
+  lcd.drawText(lcd.getLastPos()+2,0, telemetry.airspeed ,0)
+  lcd.drawText(lcd.getLastPos()+10,0,"Cl:", 0)
+  lcd.drawText(lcd.getLastPos()+2,0, telemetry.vSpeed ,0)
+
 --1
   lcd.drawText(1,8,"TRIM_THROTTLE:", 0)
   lcd.drawText(lcd.getLastPos()+2,8, exportTECS('TRIM_THROTTLE') ,0)
