@@ -84,6 +84,7 @@ The process can not be paused or aborted but repeated as many times as needed.
 * v0.1.1	  02.03.2022	logfiles will be written with timestamp
 * v0.1.2	  02.03.2022	setting default to 0 for TECS_PITCH_MAX&TECS_PITCH_MIN
 * v0.1.3	  03.03.2022	adding post-step-status sounds
+* v0.1.4	  03.03.2022	correcting hSpeed to airspeed as telemetry source
 
 ###### ... with many thanks to:
 * [https://github.com/shellixyz](https://github.com/shellixyz)

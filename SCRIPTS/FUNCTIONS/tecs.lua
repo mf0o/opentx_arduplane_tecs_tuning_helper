@@ -1,4 +1,4 @@
--- tecs tuning advisor v0.1.3
+-- tecs tuning advisor v0.1.4
 
 -- This program is free software; you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -21,7 +21,7 @@ local exdelay = 250     -- this limits opentx to fire the script too often
 
 telemetry = {}			-- shared from SCRIPTS/TELEMETRY/tecstm.lua
 telemetry.pitch = 0		-- [-90 +90]
-telemetry.hSpeed = 50	-- whats the unit here?
+telemetry.airspeed = 50	-- whats the unit here?
 telemetry.vSpeed = 3	-- whats the unit here?
 
 local function iniTTA()
@@ -70,7 +70,7 @@ local stepDef = {
         text  = function(arg)	return "continue in Fly by Wire A and fly level at desired cruise speed" end,
         fn    = function(arg)
             TECS['TRIM_THROTTLE'].value = getThrottlePct()
-            TECS['TRIM_ARSPD_CM'].value = telemetry.hSpeed -- "55" -- kph_to_CMs
+            TECS['TRIM_ARSPD_CM'].value = telemetry.airspeed -- "55" -- kph_to_CMs
             return
         end,
     },
@@ -84,7 +84,7 @@ local stepDef = {
         text  = function(arg)   return "now accelerate to your desired maximum cruise speed" end, 
         fn    = function(arg)
             TECS['THR_MAX'].value = getThrottlePct()
-            TECS['ARSPD_FBW_MAX'].value = telemetry.hSpeed 		-- "98" -- "26" -- kph_to_Ms
+            TECS['ARSPD_FBW_MAX'].value = telemetry.airspeed 		-- "98" -- "26" -- kph_to_Ms
             return
         end,
     },
@@ -115,7 +115,7 @@ local stepDef = {
 		end,
         text  = function(arg)   return "slow down to the minimum safe speed without stalling" end,
         fn    = function(arg)
-            TECS['ARSPD_FBW_MIN'].value = telemetry.hSpeed 		-- "46" -- kph to m/s "13" 
+            TECS['ARSPD_FBW_MIN'].value = telemetry.airspeed 		-- "46" -- kph to m/s "13" 
             return
         end,
     },

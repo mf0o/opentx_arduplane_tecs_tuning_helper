@@ -1,4 +1,4 @@
--- tecs tuning advisor v0.1.3
+-- tecs tuning advisor v0.1.4
 
 -- This program is free software; you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -271,8 +271,8 @@ local function processTelemetry(DATA_ID, VALUE,now)
     elseif DATA_ID == 0x500B then -- 
       telemetry.heightAboveTerrain = bit32.extract(VALUE,2,10) * (10^bit32.extract(VALUE,0,2)) * 0.1 * (bit32.extract(VALUE,12,1) == 1 and -1 or 1) -- dm to meters
       telemetry.terrainUnhealthy = bit32.extract(VALUE,13,1)
-      status.terrainLastData = now
-      status.terrainEnabled = 1
+      -- status.terrainLastData = now
+      -- status.terrainEnabled = 1
   --[[
     elseif DATA_ID == 0x50F1 then -- RC CHANNELS
       -- channels 1 - 32
@@ -286,7 +286,7 @@ local function processTelemetry(DATA_ID, VALUE,now)
       telemetry.airspeed = bit32.extract(VALUE,1,7) * (10^bit32.extract(VALUE,0,1)) -- dm/s
       telemetry.throttle = bit32.extract(VALUE,8,7)
       telemetry.baroAlt = bit32.extract(VALUE,17,10) * (10^bit32.extract(VALUE,15,2)) * 0.1 * (bit32.extract(VALUE,27,1) == 1 and -1 or 1)
-      status.airspeedEnabled = 1
+      -- status.airspeedEnabled = 1
     end
   end
   
@@ -387,7 +387,7 @@ local stepDef = {
         text  = function(arg)	return "continue in Fly by Wire A and fly level at desired cruise speed" end,
         fn    = function(arg)
             TECS['TRIM_THROTTLE'].value = getThrottlePct()
-            TECS['TRIM_ARSPD_CM'].value = telemetry.hSpeed -- "55" -- kph_to_CMs
+            TECS['TRIM_ARSPD_CM'].value = telemetry.airspeed -- "55" -- kph_to_CMs
             return
         end,
     },
@@ -401,7 +401,7 @@ local stepDef = {
         text  = function(arg)   return "now accelerate to your desired maximum cruise speed" end, 
         fn    = function(arg)
             TECS['THR_MAX'].value = getThrottlePct()
-            TECS['ARSPD_FBW_MAX'].value = telemetry.hSpeed 		-- "98" -- "26" -- kph_to_Ms
+            TECS['ARSPD_FBW_MAX'].value = telemetry.airspeed 		-- "98" -- "26" -- kph_to_Ms
             return
         end,
     },
@@ -432,7 +432,7 @@ local stepDef = {
 		end,
         text  = function(arg)   return "slow down to the minimum safe speed without stalling" end,
         fn    = function(arg)
-            TECS['ARSPD_FBW_MIN'].value = telemetry.hSpeed 		-- "46" -- kph to m/s "13" 
+            TECS['ARSPD_FBW_MIN'].value = telemetry.airspeed 		-- "46" -- kph to m/s "13" 
             return
         end,
     },
