@@ -35,20 +35,22 @@ The process can not be paused or aborted but repeated as many times as needed.
 * Choose your prefered voice and copy the custom sounds from SOUNDS/\<voice-of-your-choice\>.zip to your SD-card /SOUNDS/en/
 * [optionally] unload/remove yaapu Telemetry Script temporarily from the active Widgets List
 * load the TECS widget as fullscreen widget
-	* ![](_img/horus_setup.png)
-* [optionally] enter "setup widget" and choose your switch to initiate the next step. Default is SH
+![](_img/horus_setup.png)
+* [optionally] enter "widget settings" and choose your switch to initiate the next step. Default is SH
+![](_img/horus_settings.png)
+
 * reboot your radio
 * your should see those red numbers changing when moving your aircraft
 
 ### Installation x9D /Q7 etc.
-* Copy tecs.lua to your SD-card /SCRIPTS/FUNCTIONS
-* Copy tecstm.lua to your SD-card /SCRIPTS/TELEMETRY
+* Copy tecs.lua to your SD-card /SCRIPTS/FUNCTIONS/
+* Copy tecstm.lua to your SD-card /SCRIPTS/TELEMETRY/
 * Choose your prefered voice and copy the custom sounds from sounds/\<voice-of-your-choice\>.zip to your SD-card /SOUNDS/en/
 * replace your yaapu* from the models telemetry screen with "tecstm" 
-	* ![](_img/telemetry_screen_tecstm.png)
+![](_img/telemetry_screen_tecstm.png)
 	* (Although the script is based on Yaapu FrSky Telemetry Script 1.9.5, it cant be used simulatenously)
 * set up a switch in SPECIAL FUNCTION to trigger the script (momentary switch recommended)
-	* ![](_img/special_functions.png)
+![](_img/special_functions.png)
 * open your telemetry screen and validate that Pitch and Roll updating accordingly to aircraft movement
 
 ### Operation
@@ -73,12 +75,20 @@ The process can not be paused or aborted but repeated as many times as needed.
 ### Process
 ![](_img/tecs_tuning_process.png)
 
+### Release notes
+* v0.0.6     26.01.2022	workflow seems to be working, no telemetry support yet
+* v0.0.7     28.02.2022	adding global variable telemetry, making TECS globally available for tecstm.lua
+* v0.0.8	  01.03.2022	correcting TECS_PITCH_MAX
+* v0.0.9	  01.03.2022	added 4 deg margin to TECS_PITCH_MIN and TECS_PITCH_MAX
+* v0.1.0	  01.03.2022	changed procedure for ARSPD_FBW_MIN from circle to straight without a security margin
+* v0.1.1	  02.03.2022	logfiles will be written with timestamp
+* v0.1.2	  02.03.2022	setting default to 0 for TECS_PITCH_MAX&TECS_PITCH_MIN
+* v0.1.3	  03.03.2022	adding post-step-status sounds
 
 ###### ... with many thanks to:
 * [https://github.com/shellixyz](https://github.com/shellixyz)
 * [https://github.com/yaapu](https://github.com/yaapu)
 * [https://github.com/skorokithakis](https://github.com/skorokithakis)
-
 
 
 > Disclaimer:

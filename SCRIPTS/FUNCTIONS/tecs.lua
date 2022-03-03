@@ -1,16 +1,4 @@
--- tecs tuning advisor 
--- v0.0.6     26.01.2022	workflow seems to be working, no telemetry support yet
--- v0.0.7     28.02.2022	adding global variable telemetry, making TECS globally available for tecstm.lua
--- v0.0.8	  01.03.2022	correcting TECS_PITCH_MAX
--- v0.0.9	  01.03.2022	added 4 deg margin to TECS_PITCH_MIN and TECS_PITCH_MAX
--- v0.1.0	  01.03.2022	changed procedure for ARSPD_FBW_MIN from circle to straight without a security margin
--- v0.1.1	  02.03.2022	logfiles will be written with timestamp
--- v0.1.2	  02.03.2022	setting default to 0 for TECS_PITCH_MAX&TECS_PITCH_MIN
-
-
--- todo:
--- airspeedsensor
--- write tecs to AP?
+-- tecs tuning advisor v0.1.3
 
 -- This program is free software; you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -78,7 +66,7 @@ TECS = {
 -- each step has a audio and text description and can set multiple params
 local stepDef = {
     step1 = {
-        audio = function() 		playFile("tecs1.wav") end,
+        audio = function() 		playFile("tecs10.wav") end,
         text  = function(arg)	return "continue in Fly by Wire A and fly level at desired cruise speed" end,
         fn    = function(arg)
             TECS['TRIM_THROTTLE'].value = getThrottlePct()
@@ -87,7 +75,12 @@ local stepDef = {
         end,
     },
     step2 = {
-        audio = function() 		playFile("tecs2.wav") end,  
+        audio = function() 		
+			playFile("tecs11.wav") 
+			playNumber( TECS['TRIM_ARSPD_CM'].value, 7)
+			
+			playFile("tecs20.wav")
+		end,  
         text  = function(arg)   return "now accelerate to your desired maximum cruise speed" end, 
         fn    = function(arg)
             TECS['THR_MAX'].value = getThrottlePct()
@@ -97,9 +90,12 @@ local stepDef = {
     },
     step3 = {
         audio = function() 
-            playFile("tecs3.wav") 
+            playFile("tecs21.wav")
+			playNumber( TECS['ARSPD_FBW_MAX'].value, 7)
+			
+            playFile("tecs30.wav") 
             playNumber( TECS['THR_MAX'].value, 13)
-            playFile("tecs3.1.wav") 
+            playFile("tecs31.wav") 
             playNumber( TECS['TRIM_ARSPD_CM'].value, 7)
         end,
         text = function(arg)    return string.format("keep the throttle at %s and start climbing until your airspeed reaches %s kph.", TECS['THR_MAX'].value, TECS['TRIM_ARSPD_CM'].value)    end,    
@@ -111,7 +107,12 @@ local stepDef = {
         end,
     },    
     step4 = {
-        audio = function() 		playFile("tecs4.wav") end,
+        audio = function() 		
+			playFile("tecs32.wav")
+			playNumber( TECS['TECS_CLMB_MAX'].value, 5)
+
+			playFile("tecs40.wav") 
+		end,
         text  = function(arg)   return "slow down to the minimum safe speed without stalling" end,
         fn    = function(arg)
             TECS['ARSPD_FBW_MIN'].value = telemetry.hSpeed 		-- "46" -- kph to m/s "13" 
@@ -120,7 +121,10 @@ local stepDef = {
     },
     step5 = {
         audio = function() 
-            playFile("tecs5.wav") 
+            playFile("tecs41.wav") 
+			playNumber( TECS['ARSPD_FBW_MIN'].value ,7)
+
+            playFile("tecs50.wav") 
             playNumber( TECS['ARSPD_FBW_MIN'].value ,7)
         end,
         text = function(arg)    return string.format("gain some altitude, then cut throttle and pitch down until airspeed reaches %s kph",TECS['ARSPD_FBW_MIN'].value)        end,
@@ -132,7 +136,10 @@ local stepDef = {
     },
     step6 = {
         audio = function() 
-            playFile("tecs6.wav") 
+            playFile("tecs51.wav") 
+			playNumber( TECS['TECS_SINK_MIN'].value, 5)
+
+            playFile("tecs60.wav") 
             playNumber( TECS['ARSPD_FBW_MAX'].value ,7)
         end,
         text = function(arg)    return string.format("continue with zero throttle and pitch down until airspeed reaches %s kph",TECS['ARSPD_FBW_MAX'].value)        end,
@@ -143,7 +150,12 @@ local stepDef = {
         end
     },
     step7 = {
-        audio = function() 		playFile("tecs7.wav") end,
+        audio = function() 		
+			playFile("tecs61.wav") 
+			playNumber( TECS['TECS_SINK_MAX'].value, 5)
+
+			playFile("tecs70.wav") 
+		end,
         text  = function(arg)   return string.format("fly full speed and try to hold altitude")        end,
         fn    = function(arg)
             TECS['KFF_THR2PTCH'].value = telemetry.pitch 		-- "-4.0"
@@ -187,7 +199,7 @@ local function runTTA()
              if step > stepCount then                                            -- reset and print summary
                  step = 1
 				 logTECS(TECS)
-                 playFile("tecsf.wav") 
+                 playFile("tecsf.wav")
  
              else
                  stepDef["step"..step]["audio"]()                                    -- play audio instructions

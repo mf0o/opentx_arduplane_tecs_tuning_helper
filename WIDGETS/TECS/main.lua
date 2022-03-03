@@ -1,10 +1,4 @@
--- tecs tuning advisor 
--- v0.1.1	  02.03.2022	logfiles will be written with timestamp
--- v0.1.2	  02.03.2022	setting default to 0 for TECS_PITCH_MAX&TECS_PITCH_MIN
-
--- todo:
--- airspeedsensor
--- write tecs to AP?
+-- tecs tuning advisor v0.1.3
 
 -- This program is free software; you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -389,7 +383,7 @@ TECS = {
 -- each step has a audio and text description and can set multiple params
 local stepDef = {
     step1 = {
-        audio = function() 		playFile("tecs1.wav") end,
+        audio = function() 		playFile("tecs10.wav") end,
         text  = function(arg)	return "continue in Fly by Wire A and fly level at desired cruise speed" end,
         fn    = function(arg)
             TECS['TRIM_THROTTLE'].value = getThrottlePct()
@@ -398,7 +392,12 @@ local stepDef = {
         end,
     },
     step2 = {
-        audio = function() 		playFile("tecs2.wav") end,  
+        audio = function() 		
+			playFile("tecs11.wav") 
+			playNumber( TECS['TRIM_ARSPD_CM'].value, 7)
+			
+			playFile("tecs20.wav")
+		end,  
         text  = function(arg)   return "now accelerate to your desired maximum cruise speed" end, 
         fn    = function(arg)
             TECS['THR_MAX'].value = getThrottlePct()
@@ -408,9 +407,12 @@ local stepDef = {
     },
     step3 = {
         audio = function() 
-            playFile("tecs3.wav") 
+            playFile("tecs21.wav")
+			playNumber( TECS['ARSPD_FBW_MAX'].value, 7)
+			
+            playFile("tecs30.wav") 
             playNumber( TECS['THR_MAX'].value, 13)
-            playFile("tecs3.1.wav") 
+            playFile("tecs31.wav") 
             playNumber( TECS['TRIM_ARSPD_CM'].value, 7)
         end,
         text = function(arg)    return string.format("keep the throttle at %s and start climbing until your airspeed reaches %s kph.", TECS['THR_MAX'].value, TECS['TRIM_ARSPD_CM'].value)    end,    
@@ -422,7 +424,12 @@ local stepDef = {
         end,
     },    
     step4 = {
-        audio = function() 		playFile("tecs4.wav") end,
+        audio = function() 		
+			playFile("tecs32.wav")
+			playNumber( TECS['TECS_CLMB_MAX'].value, 5)
+
+			playFile("tecs40.wav") 
+		end,
         text  = function(arg)   return "slow down to the minimum safe speed without stalling" end,
         fn    = function(arg)
             TECS['ARSPD_FBW_MIN'].value = telemetry.hSpeed 		-- "46" -- kph to m/s "13" 
@@ -431,7 +438,10 @@ local stepDef = {
     },
     step5 = {
         audio = function() 
-            playFile("tecs5.wav") 
+            playFile("tecs41.wav") 
+			playNumber( TECS['ARSPD_FBW_MIN'].value ,7)
+
+            playFile("tecs50.wav") 
             playNumber( TECS['ARSPD_FBW_MIN'].value ,7)
         end,
         text = function(arg)    return string.format("gain some altitude, then cut throttle and pitch down until airspeed reaches %s kph",TECS['ARSPD_FBW_MIN'].value)        end,
@@ -443,7 +453,10 @@ local stepDef = {
     },
     step6 = {
         audio = function() 
-            playFile("tecs6.wav") 
+            playFile("tecs51.wav") 
+			playNumber( TECS['TECS_SINK_MIN'].value, 5)
+
+            playFile("tecs60.wav") 
             playNumber( TECS['ARSPD_FBW_MAX'].value ,7)
         end,
         text = function(arg)    return string.format("continue with zero throttle and pitch down until airspeed reaches %s kph",TECS['ARSPD_FBW_MAX'].value)        end,
@@ -454,7 +467,12 @@ local stepDef = {
         end
     },
     step7 = {
-        audio = function() 		playFile("tecs7.wav") end,
+        audio = function() 		
+			playFile("tecs61.wav") 
+			playNumber( TECS['TECS_SINK_MAX'].value, 5)
+
+			playFile("tecs70.wav") 
+		end,
         text  = function(arg)   return string.format("fly full speed and try to hold altitude")        end,
         fn    = function(arg)
             TECS['KFF_THR2PTCH'].value = telemetry.pitch 		-- "-4.0"
@@ -462,13 +480,11 @@ local stepDef = {
         end
     }
 }
-
 -------- widget stuff below
 
 local options = {
-	{"Use dflt clrs", BOOL, 1},
-	{"BackColor", COLOR, YELLOW},
-	{"ForeColor", COLOR, BLACK},
+	{"BackColor", COLOR, BLACK },
+	{"ForeColor", COLOR, WHITE },
 	{"Switch", SOURCE, 117 },
 }
 
@@ -579,7 +595,7 @@ end
 local function refresh(wgt)
   	background(wgt) --A 'widget' doesn't call the background itself when the refresh is active, so we have to do it ourselves !
 	
-	lcd.setColor (CUSTOM_COLOR, YELLOW)
+	lcd.setColor (CUSTOM_COLOR, wgt.options.BackColor)
 	
 	lcd.drawFilledRectangle (
 			wgt.zone.x,
@@ -589,7 +605,7 @@ local function refresh(wgt)
 			CUSTOM_COLOR)
 	
 	lcd.clear(CUSTOM_COLOR)
-	lcd.setColor (CUSTOM_COLOR, RED)
+	lcd.setColor (CUSTOM_COLOR,  wgt.options.ForeColor)
 
 	lcd.drawText(1,	0,"= TECS TUNING =",CUSTOM_COLOR)
 	lcd.drawText(1	,20	,"Pitch:",CUSTOM_COLOR)
@@ -608,44 +624,44 @@ local function refresh(wgt)
 	x=200
 	x_offset=180
 	y=0
-	lcd.drawText(x		,y,"TRIM_THROTTLE:", 0)
-	lcd.drawText(x+x_offset	,y, exportTECS('TRIM_THROTTLE') ,0)
-	lcd.drawText(x		,y+20,"TRIM_ARSPD_CM:", 0)
-	lcd.drawText(x+x_offset	,y+20, exportTECS('TRIM_ARSPD_CM') ,0)
+	lcd.drawText(x		,y,"TRIM_THROTTLE:", CUSTOM_COLOR)
+	lcd.drawText(x+x_offset	,y, exportTECS('TRIM_THROTTLE') , CUSTOM_COLOR)
+	lcd.drawText(x		,y+20,"TRIM_ARSPD_CM:", CUSTOM_COLOR)
+	lcd.drawText(x+x_offset	,y+20, exportTECS('TRIM_ARSPD_CM') , CUSTOM_COLOR)
 --2
 	y=40
-	lcd.drawText(x		,y,"ARSPD_FBW_MAX:", 0)
-	lcd.drawText(x+x_offset	,y, exportTECS('ARSPD_FBW_MAX') ,0)
-	lcd.drawText(x		,y+20,"THR_MAX:", 0)
-	lcd.drawText(x+x_offset	,y+20, exportTECS('THR_MAX') ,0)
+	lcd.drawText(x		,y,"ARSPD_FBW_MAX:", CUSTOM_COLOR)
+	lcd.drawText(x+x_offset	,y, exportTECS('ARSPD_FBW_MAX') , CUSTOM_COLOR)
+	lcd.drawText(x		,y+20,"THR_MAX:", CUSTOM_COLOR)
+	lcd.drawText(x+x_offset	,y+20, exportTECS('THR_MAX') , CUSTOM_COLOR)
 --3
 	y=80
-	lcd.drawText(x		,y,"TECS_CLMB_MAX:", 0)
-	lcd.drawText(x+x_offset	,y, exportTECS('TECS_CLMB_MAX') ,0)
-	lcd.drawText(x		,y+20,"FBWB_CLIMB_RATE:", 0)
-	lcd.drawText(x+x_offset	,y+20, exportTECS('FBWB_CLIMB_RATE') ,0)
+	lcd.drawText(x		,y,"TECS_CLMB_MAX:", CUSTOM_COLOR)
+	lcd.drawText(x+x_offset	,y, exportTECS('TECS_CLMB_MAX') , CUSTOM_COLOR)
+	lcd.drawText(x		,y+20,"FBWB_CLIMB_RATE:", CUSTOM_COLOR)
+	lcd.drawText(x+x_offset	,y+20, exportTECS('FBWB_CLIMB_RATE') , CUSTOM_COLOR)
 --4
 	y=120
-	lcd.drawText(x,		y,"ARSPD_FBW_MIN:", 0)
-	lcd.drawText(x+x_offset,	y, exportTECS('ARSPD_FBW_MIN') ,0)
-	lcd.drawText(x,		y+20,"TECS_PITCH_MAX:", 0)
-	lcd.drawText(x+x_offset,	y+20, exportTECS('TECS_PITCH_MAX') ,0)
+	lcd.drawText(x,		y,"ARSPD_FBW_MIN:", CUSTOM_COLOR)
+	lcd.drawText(x+x_offset,	y, exportTECS('ARSPD_FBW_MIN') , CUSTOM_COLOR)
+	lcd.drawText(x,		y+20,"TECS_PITCH_MAX:", CUSTOM_COLOR)
+	lcd.drawText(x+x_offset,	y+20, exportTECS('TECS_PITCH_MAX') , CUSTOM_COLOR)
 --5
 	y=160
-	lcd.drawText(x		,y,"STAB_PITCH_DOWN:", 0)
-	lcd.drawText(x+x_offset	,y, exportTECS('STAB_PITCH_DOWN') ,0)
-	lcd.drawText(x		,y+20,"TECS_SINK_MIN:", 0)
-	lcd.drawText(x+x_offset	,y+20, exportTECS('TECS_SINK_MIN') ,0)
+	lcd.drawText(x		,y,"STAB_PITCH_DOWN:", CUSTOM_COLOR)
+	lcd.drawText(x+x_offset	,y, exportTECS('STAB_PITCH_DOWN') , CUSTOM_COLOR)
+	lcd.drawText(x		,y+20,"TECS_SINK_MIN:", CUSTOM_COLOR)
+	lcd.drawText(x+x_offset	,y+20, exportTECS('TECS_SINK_MIN') , CUSTOM_COLOR)
 --6
 	y=200
-	lcd.drawText(x,		y,"TECS_PITCH_MIN:", 0)
-	lcd.drawText(x+x_offset,	y, exportTECS('TECS_PITCH_MIN') ,0)
-	lcd.drawText(x,		y+20,"TECS_SINK_MAX:", 0)
-	lcd.drawText(x+x_offset,	y+20, exportTECS('TECS_SINK_MAX') ,0)
+	lcd.drawText(x,		y,"TECS_PITCH_MIN:", CUSTOM_COLOR)
+	lcd.drawText(x+x_offset,	y, exportTECS('TECS_PITCH_MIN') , CUSTOM_COLOR)
+	lcd.drawText(x,		y+20,"TECS_SINK_MAX:", CUSTOM_COLOR)
+	lcd.drawText(x+x_offset,	y+20, exportTECS('TECS_SINK_MAX') , CUSTOM_COLOR)
 --7
 	y=240
-	lcd.drawText(x,		y,"KFF_THR2PTCH:", 0)
-	lcd.drawText(x+x_offset,	y, exportTECS('KFF_THR2PTCH') ,0)	
+	lcd.drawText(x,		y,"KFF_THR2PTCH:", CUSTOM_COLOR)
+	lcd.drawText(x+x_offset,	y, exportTECS('KFF_THR2PTCH') , CUSTOM_COLOR)	
 
 end
 

@@ -1,13 +1,29 @@
 folder,filename,text
-en,tecs1,continue in Fly by Wire and fly level at desired cruise speed
-en,tecs2,now accelerate to your desired maximum cruise speed
-en,tecs3,keep the throttle at 
-en,tecs3.1,and start climbing until your airspeed reaches 
-en,tecs4,slow down to the minimum safe speed without stalling
-en,tecs5,gain some altitude. then cut throttle and pitch down gently until airspeed reaches
-en,tecs6,cut throttle and pitch down to a desired sink rate without exceeding
-en,tecs7,fly as fast as possible while maintaining constant altitude
+en,tecsh,Welcome to tex tuning helper, please continue in Fly by Wire
+en,tecs10,fly level at desired cruise speed
+en,tecs11,cruise speed set to
+en,tecs20,now accelerate to your desired maximum cruise speed
+en,tecs21,maximum cruise speed set to
+en,tecs30,keep the throttle at 
+en,tecs31,and start climbing until your airspeed reaches 
+en,tecs32,climb rate set to
+en,tecs40,slow down to the minimum safe speed without stalling even in tight turns
+en,tecs41,minimum speed set to
+en,tecs50,gain some altitude first, then cut throttle and pitch down gently until airspeed reaches
+en,tecs51,minium sink rate set to
+en,tecs60,keep 0 throttle and pitch down to a desired sink rate without exceeding
+en,tecs61,maximum sink rate set to
+en,tecs70,finally fly as fast as possible while maintain constant altitude
+en,tecs71,Throttle to Pitch Mix set to
 en,tecsf,done. read the tex from your display
+
+
+
+
+
+
+
+
 
 
 
