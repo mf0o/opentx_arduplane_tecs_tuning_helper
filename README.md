@@ -2,7 +2,7 @@
 
 ### Description
 This OpenTX LUA script will navigate you through the steps to tune your plane TECS.
-The data will be processed and reformatted to Ardupilot parameter units (KPH->m/s) on the Transmitter directly.
+The data will be processed and reformatted to Ardupilot parameter units (i.e. dm/s->kph) on the Transmitter directly.
 Finally the TECS will be displayed on the screen and saved to a logfile.
 
 This is based on Yaapu's [FrSky Telemetry Script](https://github.com/yaapu/FrskyTelemetryScript/). 
@@ -28,12 +28,13 @@ The process can not be paused or aborted but repeated as many times as needed.
 * step-by-step instructions for tuning the TECS
 * single switch operation
 * show TECS parameter in Arduplane format and unit on screen
-* write logfiles to /LOGS/tecs_<timestamp>.txt
+* write logfiles to /LOGS/tecs_\<timestamp\>.txt
 
 ### Installation Horus
+* [temporary] set FRSKY_OPTIONS=0 on Arduplane to get airspeed data 
 * copy WIDGETS/TECS/main.lua to your SD card
 * Choose your prefered voice and copy the custom sounds from SOUNDS/\<voice-of-your-choice\>.zip to your SD-card /SOUNDS/en/
-* [optionally] unload/remove yaapu Telemetry Script temporarily from the active Widgets List
+* unload/remove yaapu Telemetry Script temporarily from the active Widgets List
 * load the TECS widget as fullscreen widget
 ![](_img/horus_setup.png)
 * [optionally] enter "widget settings" and choose your switch to initiate the next step. Default is SH
@@ -43,6 +44,7 @@ The process can not be paused or aborted but repeated as many times as needed.
 * your should see those red numbers changing when moving your aircraft
 
 ### Installation x9D /Q7 etc.
+* [temporary] set FRSKY_OPTIONS=0 on Arduplane to get airspeed data 
 * Copy tecs.lua to your SD-card /SCRIPTS/FUNCTIONS/
 * Copy tecstm.lua to your SD-card /SCRIPTS/TELEMETRY/
 * Choose your prefered voice and copy the custom sounds from sounds/\<voice-of-your-choice\>.zip to your SD-card /SOUNDS/en/
@@ -64,7 +66,7 @@ The process can not be paused or aborted but repeated as many times as needed.
 	* ![](_img/telemetry_screen_empty.png)
 * launch your plane and ascend to a comfortable altitude, then switch to FBWA
 * engage your switch
-	* 	follow the instructions and get _and_ hold the plane in the requested attitude and/or speed [give the telemetry here a second to update]
+	* 	follow the instructions and get _and_ hold the plane in the requested attitude and/or speed [**give the telemetry here 1 or 2 second to update**]
 	*  engage the switch again
 	*  repeat
 *  Once done your TECS screen should be filled with numbers
@@ -85,7 +87,7 @@ The process can not be paused or aborted but repeated as many times as needed.
 * v0.1.2	  02.03.2022	setting default to 0 for TECS_PITCH_MAX&TECS_PITCH_MIN
 * v0.1.3	  03.03.2022	adding post-step-status sounds
 * v0.1.4	  03.03.2022	correcting hSpeed to airspeed as telemetry source
-
+* v0.2.0	  06.03.2022 airspeed will be read from telemetry.hSpeed again, more unit convertion (dm/s to kph and m/s), logging timestamp updated, adding debug option to log raw values
 
 ##### additional Resources
 [https://ardupilot.org/plane/docs/tecs-total-energy-control-system-for-speed-height-tuning-guide.html
