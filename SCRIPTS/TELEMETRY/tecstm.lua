@@ -1,4 +1,4 @@
--- tecs tuning advisor, telemetry gateway,  v0.1.5
+-- tecs tuning advisor, telemetry gateway,  v0.2.0
 
 -- This program is free software; you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -47,6 +47,18 @@ frameTypes[10]  = "r"
 -- boat
 frameTypes[11]  = "b"
 
+local status = {}
+
+status.showDualBattery = false
+status.battAlertLevel1 = false
+status.battAlertLevel2 = false
+status.battsource = "na"
+status.flightTime = 0    -- updated from model timer 3
+status.timerRunning = 0  -- triggered by landcomplete from AP
+status.showMinMaxValues = false
+status.terrainLastData = getTime()
+status.terrainEnabled = 0
+status.airspeedEnabled = 0
 
 local frame = {}
 local frameType = nil
@@ -169,9 +181,9 @@ local function processTelemetry(DATA_ID, VALUE,now)
       else
         telemetry.hSpeed = bit32.extract(VALUE,10,7) * (10^bit32.extract(VALUE,9,1)) -- dm/s
       end
---      if status.airspeedEnabled == 0 then
---        status.airspeedEnabled = bit32.extract(VALUE,28,1)
---      end
+      if status.airspeedEnabled == 0 then
+        status.airspeedEnabled = bit32.extract(VALUE,28,1)
+      end
     elseif DATA_ID == 0x5001 then -- AP STATUS
       telemetry.flightMode = bit32.extract(VALUE,0,5)
       telemetry.simpleMode = bit32.extract(VALUE,5,2)
@@ -387,15 +399,15 @@ local function run(e)
   lcd.clear()
   lcd.drawText(1,0,"= TECS TUNING =",0)
 	
-  lcd.drawText(88,0,"Pt:",0)
-  lcd.drawText(lcd.getLastPos()+2,0, telemetry.pitch ,0)
+  lcd.drawText(85,0,"Pt:",0)
+  lcd.drawText(100,0, telemetry.pitch ,0)
 	
-  lcd.drawText(lcd.getLastPos()+10,0,"Rl:", 0)
-  lcd.drawText(lcd.getLastPos()+2,0, telemetry.roll ,0)
-  lcd.drawText(lcd.getLastPos()+10,0,"Sp:", 0)
-  lcd.drawText(lcd.getLastPos()+2,0, telemetry.airspeed ,0)
-  lcd.drawText(lcd.getLastPos()+10,0,"Cl:", 0)
-  lcd.drawText(lcd.getLastPos()+2,0, telemetry.vSpeed ,0)
+  lcd.drawText(115,0,"Rl:", 0)
+  lcd.drawText(130,0, telemetry.roll ,0)
+  lcd.drawText(145,0,"Sp:", 0)
+  lcd.drawText(160,0, telemetry.hSpeed ,0)
+  lcd.drawText(175,0,"Cl:", 0)
+  lcd.drawText(190,0, telemetry.vSpeed ,0)
 
 --1
   lcd.drawText(1,8,"TRIM_THROTTLE:", 0)
