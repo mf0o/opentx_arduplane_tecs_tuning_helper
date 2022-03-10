@@ -1,4 +1,4 @@
--- tecs tuning advisor v0.2.0
+-- tecs tuning advisor v0.2.1
 
 -- This program is free software; you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -75,7 +75,7 @@ local stepDef = {
         text  = function(arg)	return "continue in Fly by Wire A and fly level at desired cruise speed" end,
         fn    = function(arg)
             TECS['TRIM_THROTTLE'].value = getThrottlePct()		--38 -- 
-            TECS['TRIM_ARSPD_CM'].value = telemetry.hSpeed 		-- 150 -- 65kph
+            TECS['TRIM_ARSPD_CM'].value = (telemetry.airspeed ~= 0 and telemetry.airspeed) or telemetry.hSpeed 		-- 150 -- 65kph
             return
         end,
     },
@@ -89,7 +89,7 @@ local stepDef = {
         text  = function(arg)   return "now accelerate to your desired maximum cruise speed" end, 
         fn    = function(arg)
             TECS['THR_MAX'].value 		= getThrottlePct()		-- 80 -- 
-            TECS['ARSPD_FBW_MAX'].value = telemetry.hSpeed 		-- 230 -- "82kph"
+            TECS['ARSPD_FBW_MAX'].value = (telemetry.airspeed ~= 0 and telemetry.airspeed) or telemetry.hSpeed 		-- 230 -- "82kph"
             return
         end,
     },
@@ -120,7 +120,7 @@ local stepDef = {
 		end,
         text  = function(arg)   return "slow down to the minimum safe speed without stalling" end,
         fn    = function(arg)
-            TECS['ARSPD_FBW_MIN'].value = telemetry.hSpeed 		-- 120 -- "46kph" 
+            TECS['ARSPD_FBW_MIN'].value = (telemetry.airspeed ~= 0 and telemetry.airspeed) or telemetry.hSpeed 		-- 120 -- "46kph" 
             return
         end,
     },

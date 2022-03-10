@@ -179,7 +179,7 @@ local function processTelemetry(DATA_ID, VALUE,now)
       if bit32.extract(VALUE,28,1) == 1 then
         telemetry.airspeed = bit32.extract(VALUE,10,7) * (10^bit32.extract(VALUE,9,1)) -- dm/s
       else
-        telemetry.hSpeed = bit32.extract(VALUE,10,7) * (10^bit32.extract(VALUE,9,1)) -- dm/s
+        	telemetry.hSpeed = bit32.extract(VALUE,10,7) * (10^bit32.extract(VALUE,9,1)) -- dm/s
       end
       if status.airspeedEnabled == 0 then
         status.airspeedEnabled = bit32.extract(VALUE,28,1)
@@ -395,19 +395,27 @@ local function exportTECS(param)
 	return exportValue
 end
 
+local function DMs_to_KPH(DMS)      return string.format("%d", (DMS/10*3.6) )    		end
+local function DMS_to_MS(DMS)      	return string.format("%d", (DMS*0.1) )    			end
+
+
 local function run(e)
   lcd.clear()
-  lcd.drawText(1,0,"= TECS TUNING =",0)
+
+  lcd.drawText(3,0,"pch:",0)
+  lcd.drawText(26,0, telemetry.pitch ,0)	
+  
+  lcd.drawText(43,0,"rll:", 0)
+  lcd.drawText(66,0, telemetry.roll ,0)
 	
-  lcd.drawText(85,0,"Pt:",0)
-  lcd.drawText(100,0, telemetry.pitch ,0)
+  lcd.drawText(83,0,"gSp:", 0)
+  lcd.drawText(106,0, DMs_to_KPH(telemetry.hSpeed) ,0)
 	
-  lcd.drawText(115,0,"Rl:", 0)
-  lcd.drawText(130,0, telemetry.roll ,0)
-  lcd.drawText(145,0,"Sp:", 0)
-  lcd.drawText(160,0, telemetry.hSpeed ,0)
-  lcd.drawText(175,0,"Cl:", 0)
-  lcd.drawText(190,0, telemetry.vSpeed ,0)
+  lcd.drawText(123,0,"aSp:", 0)
+  lcd.drawText(146,0, DMs_to_KPH(telemetry.airspeed) ,0)
+	
+  lcd.drawText(163,0,"clb:", 0)
+  lcd.drawText(186,0, DMS_to_MS(telemetry.vSpeed) ,0)
 
 --1
   lcd.drawText(1,8,"TRIM_THROTTLE:", 0)

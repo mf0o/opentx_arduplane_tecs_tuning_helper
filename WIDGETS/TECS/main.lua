@@ -1,4 +1,5 @@
--- tecs tuning advisor v0.2.0
+-- tecs tuning advisor v0.2.1
+
 -- This program is free software; you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
 -- the Free Software Foundation; either version 3 of the License, or
@@ -390,7 +391,7 @@ local stepDef = {
         text  = function(arg)	return "continue in Fly by Wire A and fly level at desired cruise speed" end,
         fn    = function(arg)
             TECS['TRIM_THROTTLE'].value = getThrottlePct()		--38 -- 
-            TECS['TRIM_ARSPD_CM'].value = telemetry.hSpeed 		-- 150 -- 65kph
+            TECS['TRIM_ARSPD_CM'].value = (telemetry.airspeed ~= 0 and telemetry.airspeed) or telemetry.hSpeed 		-- 150 -- 65kph
             return
         end,
     },
@@ -404,7 +405,7 @@ local stepDef = {
         text  = function(arg)   return "now accelerate to your desired maximum cruise speed" end, 
         fn    = function(arg)
             TECS['THR_MAX'].value 		= getThrottlePct()		-- 80 -- 
-            TECS['ARSPD_FBW_MAX'].value = telemetry.hSpeed 		-- 230 -- "82kph"
+            TECS['ARSPD_FBW_MAX'].value = (telemetry.airspeed ~= 0 and telemetry.airspeed) or telemetry.hSpeed 		-- 230 -- "82kph"
             return
         end,
     },
@@ -435,7 +436,7 @@ local stepDef = {
 		end,
         text  = function(arg)   return "slow down to the minimum safe speed without stalling" end,
         fn    = function(arg)
-            TECS['ARSPD_FBW_MIN'].value = telemetry.hSpeed 		-- 120 -- "46kph" 
+            TECS['ARSPD_FBW_MIN'].value = (telemetry.airspeed ~= 0 and telemetry.airspeed) or telemetry.hSpeed 		-- 120 -- "46kph" 
             return
         end,
     },
@@ -633,16 +634,18 @@ local function refresh(wgt)
 	lcd.drawText(100	,40	, telemetry.pitch ,CUSTOM_COLOR)
 	lcd.drawText(1		,60	,"Roll:", CUSTOM_COLOR)
 	lcd.drawText(100	,60	, telemetry.roll ,CUSTOM_COLOR)
-	lcd.drawText(1		,80	,"airspeed:", CUSTOM_COLOR)
+	lcd.drawText(1		,80	,"groundspeed:", CUSTOM_COLOR)
 	lcd.drawText(100	,80	, DMs_to_KPH(telemetry.hSpeed) ,CUSTOM_COLOR)
-	lcd.drawText(1		,100,"climb rate:", CUSTOM_COLOR)
-	lcd.drawText(100	,100, DMS_to_MS(telemetry.vSpeed) ,CUSTOM_COLOR)
+	lcd.drawText(1		,100,"airspeed:", CUSTOM_COLOR)
+	lcd.drawText(100	,100, DMs_to_KPH(telemetry.airspeed) ,CUSTOM_COLOR)
+	lcd.drawText(1		,120,"climb rate:", CUSTOM_COLOR)
+	lcd.drawText(100	,120, DMS_to_MS(telemetry.vSpeed) ,CUSTOM_COLOR)
 	
-	lcd.drawText(1		,120	,"info:",CUSTOM_COLOR)
-	lcd.drawText(1		,140,"telemetry:", CUSTOM_COLOR)
-	lcd.drawText(100	,140,noTelemetryData, CUSTOM_COLOR)
-	lcd.drawText(1		,160,"state:", CUSTOM_COLOR)
-	lcd.drawText(100	,160,manual_trigger(wgt), CUSTOM_COLOR)
+	lcd.drawText(1		,140	,"info:",CUSTOM_COLOR)
+	lcd.drawText(1		,160,"telemetry:", CUSTOM_COLOR)
+	lcd.drawText(100	,160,noTelemetryData, CUSTOM_COLOR)
+	lcd.drawText(1		,180,"state:", CUSTOM_COLOR)
+	lcd.drawText(100	,180,manual_trigger(wgt), CUSTOM_COLOR)
 
 	
 --1

@@ -31,7 +31,6 @@ The process can not be paused or aborted but repeated as many times as needed.
 * write logfiles to /LOGS/tecs_\<timestamp\>.txt
 
 ### Installation Horus
-* [temporary] set FRSKY_OPTIONS=0 on Arduplane to get airspeed data 
 * copy `WIDGETS/TECS/main.lua` to your SD card
 * Choose your prefered voice and copy the custom sounds from `SOUNDS/\<voice-of-your-choice\>.zip` to your SD-card `/SOUNDS/en/`
 * unload/remove yaapu Telemetry Script temporarily from the active Widgets List
@@ -46,7 +45,6 @@ The process can not be paused or aborted but repeated as many times as needed.
 
 
 ### Installation x9D /Q7 etc.
-* [temporary] set FRSKY_OPTIONS=0 on Arduplane to get airspeed data 
 * Copy `SCRIPTS/FUNCTIONS/tecs.lua` to your SD-card `/SCRIPTS/FUNCTIONS/`
 * Copy `/SCRIPTS/TELEMETRY/tecstm.lua` to your SD-card `/SCRIPTS/TELEMETRY/`
 * Choose your prefered voice and copy the custom sounds from `SOUNDS/\<voice-of-your-choice\>.zip` to your SD-card `/SOUNDS/en/`
