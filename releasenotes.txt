@@ -13,3 +13,6 @@
                         FRSKY_OPTIONS=0 will override groundspeed with airspeed and not send airspeed as a separate telemetry field.
                         now we support both, using groundspeed/hSpeed unless airspeed is supplied.
 
+* v0.2.2	06.05.2022	porting fixes for EdgeTX, adding X7 telemetry screen with reduced parameter names
+						fix screen error if special function is not set up
+* v0.2.3    19.03.2023  correcting formular for KFF_THR2ATPTCH

@@ -1,4 +1,4 @@
--- tecs tuning advisor v0.2.1
+-- tecs tuning advisor v0.2.3
 
 -- This program is free software; you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -149,7 +149,6 @@ local conf = {
 
 -- telemetry pop function, either SPort or CRSF
 local telemetryPop = nil
-
 
 local function processTelemetry(DATA_ID, VALUE,now)
     if DATA_ID == 0x5006 then -- ROLLPITCH
@@ -320,18 +319,17 @@ local function processTelemetry(DATA_ID, VALUE,now)
 --          collectgarbage()
 --          collectgarbage()
           msgBuffer = ""
-        elseif #data > 48 and data[1] == 0xF2 then
-          -- passthrough array
-          local app_id, value
-          for i=0,data[2]-1
-          do
-            app_id = bit32.lshift(data[4+(6*i)],8) + data[3+(6*i)]
-            value =  bit32.lshift(data[8+(6*i)],24) + bit32.lshift(data[7+(6*i)],16) + bit32.lshift(data[6+(6*i)],8) + data[5+(6*i)]
-            --pushMessage(7,string.format("CRSF:%d - %04X:%08X",i, app_id, value))
-            processTelemetry(app_id, value, now)
-          end
-          noTelemetryData = 0
-          hideNoTelemetry = true
+		  elseif #data >= 8 and data[1] == 0xF2 then
+			-- passthrough array
+			local app_id, value
+			for i=0,math.min(data[2]-1, 9)
+			do
+			app_id = bit32.lshift(data[4+(6*i)],8) + data[3+(6*i)]
+			value =  bit32.lshift(data[8+(6*i)],24) + bit32.lshift(data[7+(6*i)],16) + bit32.lshift(data[6+(6*i)],8) + data[5+(6*i)]
+			processTelemetry(app_id, value, now)
+			end
+			noTelemetryData = 0
+			hideNoTelemetry = true
         end
       end
       return nil, nil ,nil ,nil
@@ -479,7 +477,7 @@ local stepDef = {
 		end,
         text  = function(arg)   return string.format("fly full speed and try to hold altitude")        end,
         fn    = function(arg)
-            TECS['KFF_THR2PTCH'].value = telemetry.pitch			-- "-5" --
+            TECS['KFF_THR2PTCH'].value = telemetry.pitch - math.sqrt( ( TECS['TRIM_THROTTLE'].value - getThrottlePct() ) / ( TECS['TRIM_THROTTLE'].value - 100 ))
             return
         end
     }

@@ -1,4 +1,4 @@
--- tecs tuning advisor, telemetry gateway,  v0.2.0
+-- tecs tuning advisor, telemetry gateway,  v0.2.3
 
 -- This program is free software; you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -332,18 +332,17 @@ local function processTelemetry(DATA_ID, VALUE,now)
           collectgarbage()
           collectgarbage()
           msgBuffer = ""
-        elseif #data > 48 and data[1] == 0xF2 then
-          -- passthrough array
-          local app_id, value
-          for i=0,data[2]-1
-          do
-            app_id = bit32.lshift(data[4+(6*i)],8) + data[3+(6*i)]
-            value =  bit32.lshift(data[8+(6*i)],24) + bit32.lshift(data[7+(6*i)],16) + bit32.lshift(data[6+(6*i)],8) + data[5+(6*i)]
-            --pushMessage(7,string.format("CRSF:%d - %04X:%08X",i, app_id, value))
-            processTelemetry(app_id, value, now)
-          end
-          noTelemetryData = 0
-          hideNoTelemetry = true
+		  elseif #data >= 8 and data[1] == 0xF2 then
+			-- passthrough array
+			local app_id, value
+			for i=0,math.min(data[2]-1, 9)
+			do
+			app_id = bit32.lshift(data[4+(6*i)],8) + data[3+(6*i)]
+			value =  bit32.lshift(data[8+(6*i)],24) + bit32.lshift(data[7+(6*i)],16) + bit32.lshift(data[6+(6*i)],8) + data[5+(6*i)]
+			processTelemetry(app_id, value, now)
+			end
+			noTelemetryData = 0
+			hideNoTelemetry = true
         end
       end
       return nil, nil ,nil ,nil
@@ -384,15 +383,18 @@ end
 
 local function exportTECS(param)
 		
-	 local exportValue = nil
-	 while not exportValue do
-		 exportValue = TECS[param].exporter(TECS[param].value)
-		 if type(exportValue) == "lightfunction" then
-			 exportValue = nil
-		 end
-	 end
-	
-	return exportValue
+	local exportValue = nil
+	if TECS~=nil then 
+		while not exportValue do
+			exportValue = TECS[param].exporter(TECS[param].value)
+			if type(exportValue) == "lightfunction" then
+				exportValue = nil
+			end
+		end
+		return exportValue
+	else
+		return 10.5
+	end
 end
 
 local function DMs_to_KPH(DMS)      return string.format("%d", (DMS/10*3.6) )    		end

@@ -46,7 +46,7 @@ The process can not be paused or aborted but repeated as many times as needed.
 
 ### Installation x9D /Q7 etc.
 * Copy `SCRIPTS/FUNCTIONS/tecs.lua` to your SD-card `/SCRIPTS/FUNCTIONS/`
-* Copy `/SCRIPTS/TELEMETRY/tecstm.lua` to your SD-card `/SCRIPTS/TELEMETRY/`
+* Copy `/SCRIPTS/TELEMETRY/tecsX[7|9].lua` to your SD-card `/SCRIPTS/TELEMETRY/`
 * Choose your prefered voice and copy the custom sounds from `SOUNDS/\<voice-of-your-choice\>.zip` to your SD-card `/SOUNDS/en/`
 * replace your yaapu* from the models telemetry screen with "tecstm" 
 ![](_img/telemetry_screen_tecstm.png)

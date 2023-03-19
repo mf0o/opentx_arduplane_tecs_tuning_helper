@@ -1,4 +1,4 @@
--- tecs tuning advisor v0.2.1
+-- tecs tuning advisor v0.2.3
 
 -- This program is free software; you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -163,7 +163,7 @@ local stepDef = {
 		end,
         text  = function(arg)   return string.format("fly full speed and try to hold altitude")        end,
         fn    = function(arg)
-            TECS['KFF_THR2PTCH'].value = telemetry.pitch			-- "-5" --
+            TECS['KFF_THR2PTCH'].value = telemetry.pitch - math.sqrt( ( TECS['TRIM_THROTTLE'].value - getThrottlePct() ) / ( TECS['TRIM_THROTTLE'].value - 100 ))
             return
         end
     }
